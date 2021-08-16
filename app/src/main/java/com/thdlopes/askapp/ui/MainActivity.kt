@@ -8,6 +8,9 @@ import com.thdlopes.askapp.R
 import com.thdlopes.askapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
+    lateinit var toolbar: androidx.appcompat.widget.Toolbar
+
     private lateinit var binding: ActivityMainBinding
 
     private val homeFragment = HomeFragment()
@@ -22,6 +25,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+
 
         firebaseAuth = FirebaseAuth.getInstance()
         changeFragment(homeFragment)
@@ -34,6 +40,13 @@ class MainActivity : AppCompatActivity() {
                 R.id.favorite -> changeFragment(favoriteFragment)
                 R.id.account -> changeFragment(accountFragment)
             }
+            when(it.itemId){
+                R.id.home -> setToolbarTitle("AskApp")
+                R.id.search -> setToolbarTitle("Explorar")
+                R.id.create -> setToolbarTitle("Criar")
+                R.id.favorite -> setToolbarTitle("Favoritos")
+                R.id.account -> setToolbarTitle("Perfil")
+            }
             true
         }
 
@@ -44,6 +57,10 @@ class MainActivity : AppCompatActivity() {
             val fragment = supportFragmentManager.beginTransaction()
             fragment.replace(R.id.fragment_container,frag).commit()
         }
+    }
+
+    private fun setToolbarTitle(title: String){
+        supportActionBar?.title = title
     }
 
 }
