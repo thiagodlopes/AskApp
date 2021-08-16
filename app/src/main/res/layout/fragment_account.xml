@@ -7,6 +7,7 @@
     tools:context=".ui.AccountFragment">
 
     <TextView
+        android:id="@+id/textViewAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Account"
@@ -14,5 +15,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+    <Button
+        android:id="@+id/buttonLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        app:layout_constraintTop_toBottomOf="@id/textViewAccount"
+        app:layout_constraintLeft_toLeftOf="@id/textViewAccount"
+        app:layout_constraintRight_toRightOf="@id/textViewAccount"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
