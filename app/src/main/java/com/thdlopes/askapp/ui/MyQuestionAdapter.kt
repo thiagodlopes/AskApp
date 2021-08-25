@@ -4,20 +4,21 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.thdlopes.askapp.data.Question
-import com.thdlopes.askapp.databinding.RecyclerViewQuestionsBinding
+import com.thdlopes.askapp.databinding.RecyclerViewMyQuestionsBinding
 
 class QuestionAdapter: RecyclerView.Adapter<QuestionAdapter.ViewHolder>() {
 
     var questions = mutableListOf<Question>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(RecyclerViewQuestionsBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return ViewHolder(RecyclerViewMyQuestionsBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.textViewQuestion.text = questions[position].name
-        holder.binding.answerA.text = questions[position].answerA
-        holder.binding.answerB.text = questions[position].answerB
+        holder.binding.textViewAnswerA.text = questions[position].answerA
+        holder.binding.textViewAnswerB.text = questions[position].answerB
+        holder.binding.textViewVotes.text = questions[position].votes.toString()
         holder.binding.chipCategory.text = questions[position].category
     }
 
@@ -39,12 +40,7 @@ class QuestionAdapter: RecyclerView.Adapter<QuestionAdapter.ViewHolder>() {
         notifyDataSetChanged()
     }
 
-    fun clearAdapter(){
-        questions.clear()
-        notifyDataSetChanged()
-    }
-
-    inner class ViewHolder (val binding: RecyclerViewQuestionsBinding): RecyclerView.ViewHolder(binding.root){
+    inner class ViewHolder (val binding: RecyclerViewMyQuestionsBinding): RecyclerView.ViewHolder(binding.root){
     }
 
 }

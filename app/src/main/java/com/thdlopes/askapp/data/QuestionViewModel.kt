@@ -1,12 +1,13 @@
 package com.thdlopes.askapp.data
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
-class MyQuestionViewModel: ViewModel() {
+class QuestionViewModel: ViewModel() {
 
     private lateinit var firebaseAuth: FirebaseAuth
 
@@ -55,11 +56,14 @@ class MyQuestionViewModel: ViewModel() {
 
     }
 
-    fun getRealTimeUpdate(){
+    fun getRealTimeUpdate(filter : String){
         firebaseAuth = FirebaseAuth.getInstance()
         val firebaseUser = firebaseAuth.currentUser?.uid.toString()
-
-        var query : Query = FirebaseDatabase.getInstance().getReference("questions").orderByChild("creatorId").equalTo( firebaseUser)
+        var query : Query = FirebaseDatabase.getInstance().getReference("questions").orderByChild("category")
+        if (filter != ""){
+            Log.v("TAG", "== ${filter}")
+            query = FirebaseDatabase.getInstance().getReference("questions").orderByChild("category").equalTo(filter)
+        }
         query.addChildEventListener(childEventListener)
     }
 
@@ -83,11 +87,6 @@ class MyQuestionViewModel: ViewModel() {
                         _result.value = it.exception
                     }
                 }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        dbquestions.removeEventListener(childEventListener)
     }
 
 }
