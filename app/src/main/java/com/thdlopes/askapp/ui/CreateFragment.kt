@@ -15,7 +15,7 @@ class CreateFragment : Fragment() {
     private var _binding: FragmentCreateBinding? = null
     private val binding get() = _binding!!
 
-    private val adapter = QuestionAdapter()
+    private val adapter = MyQuestionAdapter()
 
     private lateinit var viewModelMy: MyQuestionViewModel
 
