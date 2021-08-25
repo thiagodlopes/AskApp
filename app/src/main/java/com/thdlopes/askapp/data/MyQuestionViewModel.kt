@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
-class MyQuestionViewModel: ViewModel() {
+class QuestionViewModel: ViewModel() {
 
     private lateinit var firebaseAuth: FirebaseAuth
 
