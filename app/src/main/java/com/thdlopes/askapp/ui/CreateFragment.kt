@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.thdlopes.askapp.data.QuestionViewModel
+import com.thdlopes.askapp.data.MyQuestionViewModel
 import com.thdlopes.askapp.databinding.FragmentCreateBinding
 
 class CreateFragment : Fragment() {
@@ -17,7 +17,7 @@ class CreateFragment : Fragment() {
 
     private val adapter = QuestionAdapter()
 
-    private lateinit var viewModel: QuestionViewModel
+    private lateinit var viewModelMy: MyQuestionViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +30,7 @@ class CreateFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentCreateBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProviders.of(this).get(QuestionViewModel::class.java)
+        viewModelMy = ViewModelProviders.of(this).get(MyQuestionViewModel::class.java)
         return binding.root
     }
 
@@ -43,11 +43,11 @@ class CreateFragment : Fragment() {
             CreateQuestionDialogFragment().show(childFragmentManager, "")
         }
 
-        viewModel.question.observe(viewLifecycleOwner, Observer{
+        viewModelMy.question.observe(viewLifecycleOwner, Observer{
             adapter.addQuestion(it)
         })
 
-        viewModel.getRealTimeUpdate()
+        viewModelMy.getRealTimeUpdate()
 
     }
 

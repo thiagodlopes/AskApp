@@ -1,17 +1,20 @@
 package com.thdlopes.askapp.ui
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.google.android.material.chip.Chip
 import com.google.firebase.auth.FirebaseAuth
+import com.thdlopes.askapp.R
 import com.thdlopes.askapp.data.Question
-import com.thdlopes.askapp.data.QuestionViewModel
+import com.thdlopes.askapp.data.MyQuestionViewModel
 import com.thdlopes.askapp.databinding.FragmentCreateQuestionDialogBinding
 
 
@@ -20,7 +23,7 @@ class CreateQuestionDialogFragment : DialogFragment() {
     private var _binding: FragmentCreateQuestionDialogBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var viewModel: QuestionViewModel
+    private lateinit var viewModelMy: MyQuestionViewModel
 
     private lateinit var firebaseAuth: FirebaseAuth
 
@@ -34,7 +37,7 @@ class CreateQuestionDialogFragment : DialogFragment() {
     ): View? {
         _binding = FragmentCreateQuestionDialogBinding.inflate(inflater, container, false)
 
-        viewModel = ViewModelProviders.of(this).get(QuestionViewModel::class.java)
+        viewModelMy = ViewModelProviders.of(this).get(MyQuestionViewModel::class.java)
         return binding.root
     }
 
@@ -44,7 +47,26 @@ class CreateQuestionDialogFragment : DialogFragment() {
         firebaseAuth = FirebaseAuth.getInstance()
         val firebaseUser = firebaseAuth.currentUser?.uid.toString()
 
-        viewModel.result.observe(viewLifecycleOwner, Observer {
+        val adapter = ArrayAdapter.createFromResource(requireContext(), R.array.categories, android.R.layout.simple_spinner_item)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        val spinner = binding.spinnerCategory
+        spinner.adapter = adapter
+
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                var selectedItem = parent!!.getItemAtPosition(position)
+                if (selectedItem != "Selecione") {
+                    binding.textViewSelectedCategory.setTextColor(Color.parseColor("#FFFFFF"))
+                    binding.textViewSelectedCategory.text = "${selectedItem}"
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                TODO("Not yet implemented")
+            }
+
+        }
+        viewModelMy.result.observe(viewLifecycleOwner, Observer {
             val message = if (it == null) {
                 "Pergunta adicionada com sucesso"
             } else {
@@ -59,7 +81,7 @@ class CreateQuestionDialogFragment : DialogFragment() {
             val answerA = binding.editTextAnswerA.text.toString().trim()
             val answerB = binding.editTextAnswerB.text.toString().trim()
             val creatorId = firebaseUser
-            val category = getCategory()
+            val category = binding.textViewSelectedCategory.text.toString().trim()
 
 
             if(name.isEmpty()){
@@ -94,20 +116,8 @@ class CreateQuestionDialogFragment : DialogFragment() {
             question.creatorId = creatorId
             question.category = category
 
-            viewModel.addQuestion(question)
+            viewModelMy.addQuestion(question)
         }
 
     }
-
-    private fun getCategory(): String {
-        val chipGroup = binding.chipGroup
-        for (i in 0 until chipGroup.childCount) {
-            var chip = (chipGroup.getChildAt(i) as Chip)
-            if (chip.isChecked){
-                return chip.text.toString().trim()
-            }
-        }
-        return "Sem Categoria"
-    }
-
 }
