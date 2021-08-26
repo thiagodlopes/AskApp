@@ -61,10 +61,24 @@ class SearchFragment : Fragment() {
 
         binding.chipFilter.setOnCheckedChangeListener { chipGroup, id ->
             var selectedChipText = getSelectedText(chipGroup, id)
-            textViewFilter.text = selectedChipText
+            if (selectedChipText != ""){
+                textViewFilter.text = selectedChipText
+            } else textViewFilter.text = "Todos"
+
             Toast.makeText(requireContext(), "${selectedChipText}", Toast.LENGTH_SHORT).show()
             viewModel.getRealTimeUpdate(selectedChipText)
             adapter.clearAdapter()
+        }
+
+        binding.filterDrop.setOnClickListener {
+            val chipGroup = binding.chipFilter
+            if (chipGroup.visibility == View.VISIBLE){
+                chipGroup.visibility = View.GONE
+                binding.filterDrop.setImageResource(R.drawable.ic_drop_down)
+            } else {
+                chipGroup.visibility = View.VISIBLE
+                binding.filterDrop.setImageResource(R.drawable.ic_drop_up)
+            }
         }
 
         viewModel.question.observe(viewLifecycleOwner, Observer{
