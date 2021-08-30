@@ -29,9 +29,6 @@ class LoginActivity : AppCompatActivity() {
         private const val TAG = "GOOGLE_SIGN_IN"
     }
 
-    private var email = ""
-    private var password = ""
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -40,31 +37,12 @@ class LoginActivity : AppCompatActivity() {
         firebaseAuth = FirebaseAuth.getInstance()
         checkUser()
 
-        binding.textViewRegister.setOnClickListener {
-            startActivity(Intent(this, RegisterActivity::class.java))
-        }
-
-        binding.textViewResetPassword.setOnClickListener {
-            email = binding.editTextEmail.text.toString().trim()
-
-            if (email != null && email != "") {
-                firebaseAuth.sendPasswordResetEmail(email!!)
-                Toast.makeText(this, "Verifique o e-mail $email para alterar a senha", Toast.LENGTH_SHORT).show()
-            } else {
-                binding.editTextEmail.error = "Insira seu e-mail e depois clique em 'Redefinir Senha' para seguir com a troca de senha."
-
-            }
-
-        }
-
-        binding.buttonLogin.setOnClickListener {
-            validadeData()
-        }
 
         //Google SignIn
         val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
+                .requestProfile()
                 .build()
         googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions)
 
@@ -74,43 +52,6 @@ class LoginActivity : AppCompatActivity() {
             startActivityForResult(intent, RC_SIGN_IN)
         }
     }
-
-    private fun validadeData() {
-
-        email = binding.editTextEmail.text.toString().trim()
-        password = binding.editTextPassword.text.toString().trim()
-
-        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-            binding.editTextEmail.error = "Email inválido"
-        } else if (password.isEmpty()){
-            binding.editTextPassword.error = "Campo em branco"
-        } else {
-            firebaseLogin()
-        }
-
-    }
-
-    private fun firebaseLogin() {
-        firebaseAuth.signInWithEmailAndPassword(email,password)
-            .addOnSuccessListener {
-                val firebaseUser = firebaseAuth.currentUser
-                val email = firebaseUser!!.email
-
-                if (firebaseUser.isEmailVerified) {
-                    Toast.makeText(this, "Entrou como  $email", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this, MainActivity::class.java))
-                    finish()}
-                else {
-                    Toast.makeText(this, "Um e-mail foi enviado para $email verifique o e-mail para fazer o Login", Toast.LENGTH_SHORT).show()
-                    firebaseUser.sendEmailVerification()
-                }
-            }
-            .addOnFailureListener {e->
-                Toast.makeText(this, "Login falhou devido a ${e.message}", Toast.LENGTH_SHORT).show()
-            }
-    }
-
-
     private fun checkUser() {
         val firebaseUser = firebaseAuth.currentUser
         if(firebaseUser != null && firebaseUser.isEmailVerified){
