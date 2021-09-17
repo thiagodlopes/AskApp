@@ -78,6 +78,19 @@ class QuestionViewModel: ViewModel() {
                 }
     }
 
+    fun updateVote(question: Question, anwser: String){
+        if (anwser == "anwserA"){
+            var aCurrentVotes = question.aVotes + 1
+            dbquestions.child(question.id!!).child("aVotes").setValue(aCurrentVotes)
+        } else if (anwser == "anwserB"){
+            var bCurrentVotes = question.bVotes + 1
+            dbquestions.child(question.id!!).child("bVotes").setValue(bCurrentVotes)
+        } else {
+            Log.d("ERROVOTEUPDATE","deu ruim")
+        }
+
+    }
+
     fun deleteQuestion(question: Question){
         dbquestions.child(question.id!!).setValue(null)
                 .addOnCompleteListener {
