@@ -11,7 +11,8 @@ data class Question(
     var answerA: String? = null,
     var answerB: String? = null,
     var category: String? = null,
-    var votes: Long = 0,
+    var aVotes: Long = 0,
+    var bVotes: Long = 0,
 
     @get:Exclude
     var isDeleted: Boolean = false
@@ -29,7 +30,8 @@ data class Question(
         result = 31 * result + (answerA?.hashCode() ?: 0)
         result = 31 * result + (answerB?.hashCode() ?: 0)
         result = 31 * result + (category?.hashCode() ?: 0)
-        result = 31 * result + votes.hashCode()
+        result = 31 * result + aVotes.hashCode()
+        result = 31 * result + bVotes.hashCode()
         result = 31 * result + isDeleted.hashCode()
         return result
     }
