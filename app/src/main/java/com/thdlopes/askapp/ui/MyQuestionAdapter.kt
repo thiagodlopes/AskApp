@@ -15,11 +15,16 @@ class MyQuestionAdapter: RecyclerView.Adapter<MyQuestionAdapter.ViewHolderMy>() 
     }
 
     override fun onBindViewHolder(holder: ViewHolderMy, position: Int) {
+        var aVotes = questions[position].aVotes
+        var bVotes = questions[position].bVotes
+        var votesSum = "Votos: ${aVotes + bVotes}"
         holder.binding.textViewQuestion.text = questions[position].name
         holder.binding.textViewAnswerA.text = questions[position].answerA
         holder.binding.textViewAnswerB.text = questions[position].answerB
-        holder.binding.textViewVotes.text = questions[position].votes.toString()
-        holder.binding.chipCategory.text = questions[position].category
+        holder.binding.textViewVotes.text = aVotes.toString()
+        holder.binding.textViewVotes.text = bVotes.toString()
+        holder.binding.textViewVotes.text = votesSum
+        holder.binding.textViewCategory.text = questions[position].category
     }
 
     override fun getItemCount(): Int {
