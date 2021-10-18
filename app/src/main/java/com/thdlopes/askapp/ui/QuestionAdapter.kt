@@ -20,13 +20,19 @@ class QuestionAdapter: RecyclerView.Adapter<QuestionAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var voters = questions[position].voters
-        Log.d("voters", voters.toString())
         if (voters.contains(currentUser)) {
             //BackView
+            var aVotes = questions[position].aVotes
+            var bVotes = questions[position].bVotes
+            var votesSum = questions[position].aVotes + questions[position].bVotes
+            aVotes = (aVotes * 100)/votesSum
+            bVotes = (bVotes * 100)/votesSum
+            var aPercentage = "$aVotes%"
+            var bPercentage = "$bVotes%"
             holder.binding.textViewQuestion.text = questions[position].name
-            holder.binding.answerA.text = questions[position].aVotes.toString()
-            holder.binding.answerB.text = questions[position].bVotes.toString()
-            var totalVotes = "Total de votos: ${questions[position].aVotes + questions[position].bVotes}"
+            holder.binding.answerA.text = aPercentage
+            holder.binding.answerB.text = bPercentage
+            var totalVotes = "Votos: $votesSum"
             holder.binding.chipCategory.text = totalVotes
         } else {
             //FrontView

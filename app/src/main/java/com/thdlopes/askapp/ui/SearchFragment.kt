@@ -2,6 +2,7 @@ package com.thdlopes.askapp.ui
 
 import android.content.res.Resources
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.firebase.auth.FirebaseAuth
 import com.thdlopes.askapp.R
 import com.thdlopes.askapp.data.QuestionViewModel
 import com.thdlopes.askapp.databinding.FragmentSearchBinding
@@ -44,8 +46,7 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.recyclerViewQuestions.adapter = adapter
-        var textViewFilter = binding.textViewFilter
-
+        var selectedCategory = "Todos"
 
         //Colocar no FilterDialog
         val res: Resources = resources
@@ -63,22 +64,20 @@ class SearchFragment : Fragment() {
         binding.chipFilter.setOnCheckedChangeListener { chipGroup, id ->
             var selectedChipText = getSelectedText(chipGroup, id)
             if (selectedChipText != ""){
-                textViewFilter.text = selectedChipText
-            } else textViewFilter.text = "Todos"
-
-            Toast.makeText(requireContext(), "${selectedChipText}", Toast.LENGTH_SHORT).show()
+                selectedCategory = selectedChipText
+            } else selectedCategory = "Todos"
             viewModel.getRealTimeUpdate(selectedChipText)
             adapter.clearAdapter()
         }
 
         binding.filterDrop.setOnClickListener {
-            val chipGroup = binding.chipFilter
-            if (chipGroup.visibility == View.VISIBLE){
-                chipGroup.visibility = View.GONE
-                binding.filterDrop.setImageResource(R.drawable.ic_drop_down)
+            val filterLayout = binding.filterLayout
+            if (filterLayout.visibility == View.VISIBLE){
+                filterLayout.visibility = View.GONE
+                Toast.makeText(requireContext(), "Exibindo '$selectedCategory'", Toast.LENGTH_SHORT).show()
             } else {
-                chipGroup.visibility = View.VISIBLE
-                binding.filterDrop.setImageResource(R.drawable.ic_drop_up)
+                filterLayout.visibility = View.VISIBLE
+                Toast.makeText(requireContext(), "Exibindo '$selectedCategory'", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -114,14 +113,23 @@ class SearchFragment : Fragment() {
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
             var position = viewHolder.adapterPosition
             var currentQuestion = adapter.questions[position]
-
+            var currentUser = FirebaseAuth.getInstance().currentUser?.uid.toString()
+            var voters = currentQuestion.voters
+            val toast = Toast.makeText(requireContext(),"Você já voltou.", Toast.LENGTH_SHORT)
             when(direction){
                 ItemTouchHelper.RIGHT -> {
-                    viewModel.updateVote(currentQuestion, "answerB")
+                    if (voters.contains(currentUser)) {
+                        toast.show()
+                    } else {
+                        viewModel.updateVote(currentQuestion, "answerB")
+                    }
                 }
-
                 ItemTouchHelper.LEFT -> {
-                    viewModel.updateVote(currentQuestion, "answerA")
+                    if (voters.contains(currentUser)) {
+                        toast.show()
+                    } else {
+                        viewModel.updateVote(currentQuestion, "answerA")
+                    }
                 }
             }
             binding.recyclerViewQuestions.adapter?.notifyDataSetChanged()
