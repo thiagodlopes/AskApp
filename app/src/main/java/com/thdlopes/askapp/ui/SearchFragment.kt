@@ -1,6 +1,5 @@
 package com.thdlopes.askapp.ui
 
-import android.app.AlertDialog
 import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,8 +11,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.thdlopes.askapp.R
@@ -25,7 +22,6 @@ class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
     private lateinit var categories: Array<String> //Usado pra criar o chipGroup
-
     private val adapter = QuestionAdapter()
     private lateinit var viewModel: QuestionViewModel
 
@@ -117,20 +113,19 @@ class SearchFragment : Fragment() {
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
             var position = viewHolder.adapterPosition
-            var currentFinance = adapter.questions[position]
+            var currentQuestion = adapter.questions[position]
 
             when(direction){
                 ItemTouchHelper.RIGHT -> {
-                    viewModel.updateVote(currentFinance, "anwserB")
+                    viewModel.updateVote(currentQuestion, "answerB")
                 }
 
                 ItemTouchHelper.LEFT -> {
-                    viewModel.updateVote(currentFinance, "anwserA")
+                    viewModel.updateVote(currentQuestion, "answerA")
                 }
             }
             binding.recyclerViewQuestions.adapter?.notifyDataSetChanged()
         }
 
     }
-
 }
