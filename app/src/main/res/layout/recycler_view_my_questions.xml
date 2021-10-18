@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/bgAlt"
     android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -27,7 +28,7 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:text="Pergunta"
-            android:textColor="@color/black"
+            android:textColor="@color/colorText"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -80,11 +81,13 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp">
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chipCategory"
+        <TextView
+            android:id="@+id/textViewCategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Category"
+            android:padding="12dp"
+            android:textColor="@color/colorText"
             />
 
         <TextView
@@ -92,6 +95,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Votos: "
+            android:textColor="@color/colorText"
             android:gravity="end"
             />
 
@@ -100,6 +104,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1.5dp"
-        android:background="#D5D4D4"/>
+        android:background="@color/border"/>
 
 </LinearLayout>
