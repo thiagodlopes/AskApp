@@ -59,18 +59,13 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp">
-        <com.google.android.material.chip.Chip
+        <TextView
             android:id="@+id/chipCategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Category"
+            android:padding="12dp"
             />
-    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
