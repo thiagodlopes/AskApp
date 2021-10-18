@@ -13,8 +13,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.firebase.auth.FirebaseAuth
 import com.thdlopes.askapp.R
-import com.thdlopes.askapp.data.Question
 import com.thdlopes.askapp.data.MyQuestionViewModel
+import com.thdlopes.askapp.data.Question
 import com.thdlopes.askapp.databinding.FragmentCreateQuestionDialogBinding
 
 
@@ -83,7 +83,6 @@ class CreateQuestionDialogFragment : DialogFragment() {
             val creatorId = firebaseUser
             val category = binding.textViewSelectedCategory.text.toString().trim()
 
-
             if(name.isEmpty()){
                 binding.editTextName.error = "Este campo é obrigatório"
                 return@setOnClickListener
@@ -115,6 +114,7 @@ class CreateQuestionDialogFragment : DialogFragment() {
             question.answerB = answerB
             question.creatorId = creatorId
             question.category = category
+            question.voters.add(creatorId)
 
             viewModelMy.addQuestion(question)
         }

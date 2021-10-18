@@ -1,7 +1,6 @@
 package com.thdlopes.askapp.data
 
 import com.google.firebase.database.Exclude
-import java.math.BigInteger
 
 data class Question(
     @get:Exclude
@@ -13,6 +12,7 @@ data class Question(
     var category: String? = null,
     var aVotes: Long = 0,
     var bVotes: Long = 0,
+    var voters: ArrayList<String> = arrayListOf(),
 
     @get:Exclude
     var isDeleted: Boolean = false
