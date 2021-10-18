@@ -78,17 +78,23 @@ class QuestionViewModel: ViewModel() {
                 }
     }
 
-    fun updateVote(question: Question, anwser: String){
-        if (anwser == "anwserA"){
+    fun updateVote(question: Question, answer: String) {
+        firebaseAuth = FirebaseAuth.getInstance()
+        val firebaseUser = firebaseAuth.currentUser?.uid.toString()
+        var voters = question.voters
+        voters.add(firebaseUser)
+        var currentQuestion = dbquestions.child(question.id!!)
+        if (answer == "answerA") {
             var aCurrentVotes = question.aVotes + 1
-            dbquestions.child(question.id!!).child("aVotes").setValue(aCurrentVotes)
-        } else if (anwser == "anwserB"){
+            currentQuestion.child("aVotes").setValue(aCurrentVotes)
+            currentQuestion.child("voters").setValue(voters)
+        } else if (answer == "answerB") {
             var bCurrentVotes = question.bVotes + 1
-            dbquestions.child(question.id!!).child("bVotes").setValue(bCurrentVotes)
+            currentQuestion.child("bVotes").setValue(bCurrentVotes)
+            currentQuestion.child("voters").setValue(voters)
         } else {
             Log.d("ERROVOTEUPDATE","deu ruim")
         }
-
     }
 
     fun deleteQuestion(question: Question){
