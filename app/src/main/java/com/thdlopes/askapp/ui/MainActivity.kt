@@ -13,10 +13,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private val homeFragment = HomeFragment()
     private val searchFragment = SearchFragment()
     private val createFragment = CreateFragment()
-    private val favoriteFragment = FavoriteFragment()
     private val accountFragment = AccountFragment()
 
     private  lateinit var firebaseAuth: FirebaseAuth
@@ -30,21 +28,17 @@ class MainActivity : AppCompatActivity() {
 
 
         firebaseAuth = FirebaseAuth.getInstance()
-        changeFragment(homeFragment)
+        changeFragment(searchFragment)
 
         binding.bottomNavigation.setOnNavigationItemSelectedListener {
             when(it.itemId){
-                R.id.home -> changeFragment(homeFragment)
                 R.id.search -> changeFragment(searchFragment)
                 R.id.create -> changeFragment(createFragment)
-                R.id.favorite -> changeFragment(favoriteFragment)
                 R.id.account -> changeFragment(accountFragment)
             }
             when(it.itemId){
-                R.id.home -> setToolbarTitle("AskApp")
-                R.id.search -> setToolbarTitle("Explorar")
+                R.id.search -> setToolbarTitle("AskApp")
                 R.id.create -> setToolbarTitle("Criar")
-                R.id.favorite -> setToolbarTitle("Favoritos")
                 R.id.account -> setToolbarTitle("Perfil")
             }
             true
