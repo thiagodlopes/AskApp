@@ -19,5 +19,11 @@
     <color name="bgCardHeader">#2e2e2e</color>
     <color name="bgCardBodyInput">#212121</color>
     <color name="bgInputGroup">#2e2e2e</color>
+    <color name="aSide">#58c4eb</color>
+    <color name="aSideAlt">#9fd9ee</color>
+    <color name="bSide">#eb884d</color>
+    <color name="bSideAlt">#eeb696</color>
+    <color name="aVoted">#4499B8</color>
+    <color name="bVoted">#B86A3D</color>
 
 </resources>

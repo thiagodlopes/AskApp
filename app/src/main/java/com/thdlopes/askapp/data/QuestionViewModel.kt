@@ -82,7 +82,9 @@ class QuestionViewModel: ViewModel() {
         firebaseAuth = FirebaseAuth.getInstance()
         val firebaseUser = firebaseAuth.currentUser?.uid.toString()
         var voters = question.voters
+        var answers = question.answers
         voters.add(firebaseUser)
+        answers.add(answer)
         var currentQuestion = dbquestions.child(question.id!!)
         if (answer == "answerA") {
             var aCurrentVotes = question.aVotes + 1

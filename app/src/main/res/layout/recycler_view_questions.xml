@@ -21,8 +21,18 @@
             android:padding="10dp"
             android:text="Pergunta"
             android:textColor="@color/colorText"
-            android:textSize="20sp"
+            android:textSize="25sp"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ownerIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_person"
+            android:padding="10dp"
+            app:layout_constraintBottom_toBottomOf="@+id/textViewQuestion"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
@@ -30,32 +40,99 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/answerA"
+            <RelativeLayout
+                android:layout_marginEnd="2dp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/textViewQuestion"
                 android:layout_weight=".50"
-                android:backgroundTint="@color/red"
-                android:padding="20dp"
-                android:textAllCaps="false"
-                android:text="Abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz"
+                android:background="@color/aSide"
                 app:layout_constraintStart_toStartOf="@+id/textViewQuestion"
-                app:layout_constraintTop_toBottomOf="@+id/textViewQuestion" />
+                app:layout_constraintTop_toBottomOf="@+id/textViewQuestion">
+                <ImageView
+                    android:id="@+id/imageViewA"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/ic_a_check"/>
 
-            <Button
-                android:id="@+id/answerB"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="110dp"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/aPercentage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:text=""
+                        android:textAllCaps="false"
+                        android:textColor="@color/aSideAlt"
+                        android:textSize="25sp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        />
+
+                    <TextView
+                        android:id="@+id/answerA"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:text="Resposta letra A"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorText"
+                        android:textSize="25sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/aPercentage"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_marginStart="2dp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".50"
-                android:layout_below="@+id/textViewQuestion"
-                android:backgroundTint="@color/green"
-                android:padding="20dp"
-                android:textAllCaps="false"
-                android:text="Abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewQuestion" />
+                android:background="@color/bSide"
+                app:layout_constraintStart_toStartOf="@+id/textViewQuestion"
+                app:layout_constraintTop_toBottomOf="@+id/textViewQuestion">
+                <ImageView
+                    android:id="@+id/imageViewB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true"
+                    android:src="@drawable/ic_b_check"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="110dp"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/bPercentage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:text=""
+                        android:textAllCaps="false"
+                        android:textColor="@color/bSideAlt"
+                        android:textSize="25sp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        />
+
+                    <TextView
+                        android:id="@+id/answerB"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:text="Resposta letra B"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorText"
+                        android:textSize="25sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/bPercentage"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </RelativeLayout>
+
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

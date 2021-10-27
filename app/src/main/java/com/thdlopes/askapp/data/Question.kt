@@ -13,6 +13,7 @@ data class Question(
     var aVotes: Long = 0,
     var bVotes: Long = 0,
     var voters: ArrayList<String> = arrayListOf(),
+    var answers: ArrayList<String> = arrayListOf(),
 
     @get:Exclude
     var isDeleted: Boolean = false

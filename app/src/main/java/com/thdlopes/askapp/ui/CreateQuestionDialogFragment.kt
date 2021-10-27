@@ -115,6 +115,7 @@ class CreateQuestionDialogFragment : DialogFragment() {
             question.creatorId = creatorId
             question.category = category
             question.voters.add(creatorId)
+            question.answers.add("creator")
 
             viewModelMy.addQuestion(question)
         }
