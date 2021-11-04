@@ -4,60 +4,62 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.SearchFragment"
-    android:background="@color/bg">
+    android:background="@color/bgAlt"
+    tools:context=".ui.SearchFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/filterLayout"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:background="@color/bgAlt"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
         <TextView
             android:id="@+id/textViewFilter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Filtro"
-            android:padding="5dp"
             android:gravity="center"
-            android:textSize="22sp"
+            android:padding="5dp"
+            android:text="Filtro: "
             android:textColor="@color/colorText"
-            app:layout_constraintTop_toTopOf="parent"
-        />
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chipFilter"
+            android:textSize="22sp"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Spinner
+            android:id="@+id/spinnerCategory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:singleSelection="true"
-            app:layout_constraintTop_toBottomOf="@+id/textViewFilter"
-            />
+            android:background="@drawable/bg_spinner"
+            android:padding="20dp"
+            android:spinnerMode="dropdown"
+            app:layout_constraintTop_toBottomOf="@+id/textViewFilter" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/border"
-            app:layout_constraintTop_toBottomOf="@+id/chipFilter"/>
+            app:layout_constraintTop_toBottomOf="@+id/spinnerCategory" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_questions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:listitem="@layout/recycler_view_questions"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintTop_toBottomOf="@+id/filterLayout"/>
+        app:layout_constraintTop_toBottomOf="@+id/filterLayout"
+        tools:listitem="@layout/recycler_view_questions" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/filterDrop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_margin="8dp"
-        android:src="@drawable/ic_filter" />
+        android:src="@drawable/ic_filter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
