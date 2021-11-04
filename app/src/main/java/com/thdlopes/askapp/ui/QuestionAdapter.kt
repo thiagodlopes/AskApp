@@ -32,13 +32,16 @@ class QuestionAdapter: RecyclerView.Adapter<QuestionAdapter.ViewHolder>() {
             //Voted
             var answers = questions[position].answers
             var answerIndex = voters.indexOf(currentUser)
-            if (answers[answerIndex] == "answerA") {
-                holder.binding.imageViewA.visibility = View.VISIBLE
-            } else if (answers[answerIndex] == "answerB"){
-                holder.binding.imageViewB.visibility = View.VISIBLE
-            } else {
-                holder.binding.ownerIcon.visibility = View.VISIBLE
+            if (answers.size >= answerIndex){
+                if (answers[answerIndex] == "answerA") {
+                    holder.binding.imageViewA.visibility = View.VISIBLE
+                } else if (answers[answerIndex] == "answerB"){
+                    holder.binding.imageViewB.visibility = View.VISIBLE
+                } else {
+                    holder.binding.ownerIcon.visibility = View.VISIBLE
+                }
             }
+
             holder.binding.aPercentage.visibility = View.VISIBLE
             holder.binding.bPercentage.visibility = View.VISIBLE
             var aVotes = questions[position].aVotes

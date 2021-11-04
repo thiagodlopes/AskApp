@@ -58,10 +58,9 @@ class QuestionViewModel: ViewModel() {
 
     fun getRealTimeUpdate(filter : String){
         firebaseAuth = FirebaseAuth.getInstance()
-        val firebaseUser = firebaseAuth.currentUser?.uid.toString()
         var query : Query = FirebaseDatabase.getInstance().getReference("questions").orderByChild("category")
         if (filter != ""){
-            Log.v("TAG", "== ${filter}")
+            Log.v("TAG", "== $filter")
             query = FirebaseDatabase.getInstance().getReference("questions").orderByChild("category").equalTo(filter)
         }
         query.addChildEventListener(childEventListener)
@@ -90,10 +89,12 @@ class QuestionViewModel: ViewModel() {
             var aCurrentVotes = question.aVotes + 1
             currentQuestion.child("aVotes").setValue(aCurrentVotes)
             currentQuestion.child("voters").setValue(voters)
+            currentQuestion.child("answers").setValue(answers)
         } else if (answer == "answerB") {
             var bCurrentVotes = question.bVotes + 1
             currentQuestion.child("bVotes").setValue(bCurrentVotes)
             currentQuestion.child("voters").setValue(voters)
+            currentQuestion.child("answers").setValue(answers)
         } else {
             Log.d("ERROVOTEUPDATE","deu ruim")
         }

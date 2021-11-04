@@ -1,23 +1,23 @@
 package com.thdlopes.askapp.ui
 
-import android.content.res.Resources
+import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipGroup
 import com.google.firebase.auth.FirebaseAuth
 import com.thdlopes.askapp.R
 import com.thdlopes.askapp.data.QuestionViewModel
 import com.thdlopes.askapp.databinding.FragmentSearchBinding
+
 
 class SearchFragment : Fragment() {
 
@@ -48,40 +48,38 @@ class SearchFragment : Fragment() {
         binding.recyclerViewQuestions.adapter = adapter
         var selectedCategory = "Todos"
 
-        //Colocar no FilterDialog
-        val res: Resources = resources
-        categories = res.getStringArray(R.array.categories)
-        for (i in 1 until categories.size) { //Começa no 1 pra ignorar o "Selecione"
-            var chip = Chip(binding.chipFilter.context)
-            var chipText = categories[i]
-            chip.text = chipText
-            chip.isClickable = true
-            chip.isCheckable = true
-            binding.chipFilter.addView(chip)
-        }
-        //
+        val spinnerAdapter = ArrayAdapter.createFromResource(requireContext(), R.array.categories, android.R.layout.simple_spinner_item)
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
-        binding.chipFilter.setOnCheckedChangeListener { chipGroup, id ->
-            var selectedChipText = getSelectedText(chipGroup, id)
-            if (selectedChipText != ""){
-                selectedCategory = selectedChipText
-            } else selectedCategory = "Todos"
-            viewModel.getRealTimeUpdate(selectedChipText)
-            adapter.clearAdapter()
+        val spinner = binding.spinnerCategory
+        spinner.adapter = spinnerAdapter
+
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val selectedItem = spinner.selectedItem.toString()
+                if (selectedItem != "") {
+                    selectedCategory = selectedItem
+                } else selectedCategory = "Todos"
+                viewModel.getRealTimeUpdate(selectedCategory)
+                adapter.clearAdapter()
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                TODO("Not yet implemented")
+            }
+
         }
 
         binding.filterDrop.setOnClickListener {
             val filterLayout = binding.filterLayout
             if (filterLayout.visibility == View.VISIBLE){
                 filterLayout.visibility = View.GONE
-                Toast.makeText(requireContext(), "Exibindo '$selectedCategory'", Toast.LENGTH_SHORT).show()
             } else {
                 filterLayout.visibility = View.VISIBLE
-                Toast.makeText(requireContext(), "Exibindo '$selectedCategory'", Toast.LENGTH_SHORT).show()
             }
+            Toast.makeText(requireContext(), "Exibindo '$selectedCategory'", Toast.LENGTH_SHORT).show()
         }
 
-        viewModel.question.observe(viewLifecycleOwner, Observer{
+        viewModel.question.observe(viewLifecycleOwner, Observer {
             adapter.addQuestion(it)
         })
 
@@ -91,31 +89,26 @@ class SearchFragment : Fragment() {
         itemTouchHelper.attachToRecyclerView(binding.recyclerViewQuestions)
     }
 
-    private fun getSelectedText(chipGroup: ChipGroup, id: Int): String {
-        val selectedChip = chipGroup.findViewById<Chip>(id)
-        return selectedChip?.text?.toString()?:""
-    }
-
-    override fun onDestroy() {
+     override fun onDestroy() {
         super.onDestroy()
         _binding = null
     }
 
-    private var simpleCallback = object : ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT.or(ItemTouchHelper.RIGHT)){
+    private var simpleCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT.or(ItemTouchHelper.RIGHT)){
         override fun onMove(
-            recyclerView: RecyclerView,
-            viewHolder: RecyclerView.ViewHolder,
-            target: RecyclerView.ViewHolder
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
         ): Boolean {
             return true
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-            var position = viewHolder.adapterPosition
-            var currentQuestion = adapter.questions[position]
-            var currentUser = FirebaseAuth.getInstance().currentUser?.uid.toString()
-            var voters = currentQuestion.voters
-            val toast = Toast.makeText(requireContext(),"Você já voltou.", Toast.LENGTH_SHORT)
+            val position = viewHolder.adapterPosition
+            val currentQuestion = adapter.questions[position]
+            val currentUser = FirebaseAuth.getInstance().currentUser?.uid.toString()
+            val voters = currentQuestion.voters
+            val toast = Toast.makeText(requireContext(), "Você já voltou.", Toast.LENGTH_SHORT)
             when(direction){
                 ItemTouchHelper.RIGHT -> {
                     if (voters.contains(currentUser)) {
