@@ -1,6 +1,7 @@
 package com.thdlopes.askapp.ui
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.thdlopes.askapp.data.Question
@@ -15,16 +16,31 @@ class MyQuestionAdapter: RecyclerView.Adapter<MyQuestionAdapter.ViewHolderMy>() 
     }
 
     override fun onBindViewHolder(holder: ViewHolderMy, position: Int) {
+        holder.binding.textViewQuestion.text = questions[position].name
+        holder.binding.answerA.text = questions[position].answerA
+        holder.binding.answerB.text = questions[position].answerB
+        holder.binding.textViewCategory.text = questions[position].category
+        holder.binding.aPercentage.visibility = View.VISIBLE
+        holder.binding.bPercentage.visibility = View.VISIBLE
         var aVotes = questions[position].aVotes
         var bVotes = questions[position].bVotes
-        var votesSum = "Votos: ${aVotes + bVotes}"
-        holder.binding.textViewQuestion.text = questions[position].name
-        holder.binding.textViewAnswerA.text = questions[position].answerA
-        holder.binding.textViewAnswerB.text = questions[position].answerB
-        holder.binding.textViewVotes.text = aVotes.toString()
-        holder.binding.textViewVotes.text = bVotes.toString()
-        holder.binding.textViewVotes.text = votesSum
-        holder.binding.textViewCategory.text = questions[position].category
+        var votesSum = questions[position].aVotes + questions[position].bVotes
+        val aPercentage: String
+        val bPercentage: String
+        if (votesSum == 0.toLong()) {
+            aPercentage = "0%"
+            bPercentage = "0%"
+        } else {
+            aVotes = (aVotes * 100)/votesSum
+            bVotes = (bVotes * 100)/votesSum
+            aPercentage = "$aVotes%"
+            bPercentage = "$bVotes%"
+        }
+
+        holder.binding.aPercentage.text = aPercentage
+        holder.binding.bPercentage.text = bPercentage
+        val totalVotes = "Votos: $votesSum"
+        holder.binding.textViewVotes.text = totalVotes
     }
 
     override fun getItemCount(): Int {
