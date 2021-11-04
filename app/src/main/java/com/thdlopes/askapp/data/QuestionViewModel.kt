@@ -60,8 +60,13 @@ class QuestionViewModel: ViewModel() {
         firebaseAuth = FirebaseAuth.getInstance()
         var query : Query = FirebaseDatabase.getInstance().getReference("questions").orderByChild("category")
         if (filter != ""){
-            Log.v("TAG", "== $filter")
-            query = FirebaseDatabase.getInstance().getReference("questions").orderByChild("category").equalTo(filter)
+            if (filter == "Todos"){
+                query = FirebaseDatabase.getInstance().getReference("questions").orderByChild("category")
+            } else {
+                Log.v("TAG", "== $filter")
+                query = FirebaseDatabase.getInstance().getReference("questions").orderByChild("category").equalTo(filter)
+            }
+
         }
         query.addChildEventListener(childEventListener)
     }
