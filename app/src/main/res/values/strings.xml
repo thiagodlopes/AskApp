@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">AskApp</string>
     <string-array name="categories">
-        <item>Selecione</item>
+        <item>Todos</item>
         <item>Alimentos</item>
         <item>Animais</item>
         <item>Dilemas</item>
