@@ -4,76 +4,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.AccountFragment">
+    tools:context=".ui.AccountFragment"
+    android:layout_margin="20dp">
 
     <ImageView
         android:id="@+id/imageViewAvatar"
-        android:background="@drawable/logo_placeholder"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:background="@drawable/askapp_logo"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_margin="20dp"
-        />
+        app:layout_constraintRight_toRightOf="parent"/>
 
     <TextView
         android:id="@+id/textViewAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
         android:text="Account"
-        android:textSize="18sp"
+        android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintLeft_toRightOf="@id/imageViewAvatar"
-        app:layout_constraintTop_toTopOf="@id/imageViewAvatar" />
+        android:textColor="@color/colorText"
+        android:layout_margin="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imageViewAvatar" />
 
     <TextView
         android:id="@+id/textViewEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
+        android:textSize="20sp"
+        android:textColor="@color/colorText"
         android:text="E-mail"
-        app:layout_constraintLeft_toRightOf="@id/imageViewAvatar"
-        app:layout_constraintTop_toBottomOf="@id/textViewAccount" />
-
-    <TextView
-        android:id="@+id/textViewNickname"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:textSize="16sp"
-        android:text="Nickname"
-        app:layout_constraintTop_toBottomOf="@id/imageViewAvatar"
-        app:layout_constraintLeft_toLeftOf="parent"/>
-
-    <Button
-        android:id="@+id/buttonEditProfile"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Editar Perfil"
-        android:layout_margin="20dp"
-        app:layout_constraintTop_toBottomOf="@id/textViewNickname"/>
-
-    <TextView
-        android:id="@+id/textViewCategories"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Seguindo:"
-        android:layout_margin="20dp"
-        app:layout_constraintTop_toBottomOf="@id/buttonEditProfile"
-        app:layout_constraintLeft_toLeftOf="parent"
-        />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_categories"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_margin="20dp"
-        tools:listitem="@layout/recycler_view_categories"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintTop_toBottomOf="@+id/textViewCategories"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewAccount"/>
 
     <Button
         android:id="@+id/buttonLogout"
