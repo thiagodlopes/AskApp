@@ -70,7 +70,6 @@ class QuestionViewModel: ViewModel() {
         }
         query.addChildEventListener(childEventListener)
     }
-
     fun updateQuestion(question: Question){
         dbquestions.child(question.id!!).setValue(question)
                 .addOnCompleteListener{
@@ -85,24 +84,24 @@ class QuestionViewModel: ViewModel() {
     fun updateVote(question: Question, answer: String) {
         firebaseAuth = FirebaseAuth.getInstance()
         val firebaseUser = firebaseAuth.currentUser?.uid.toString()
-        var voters = question.voters
-        var answers = question.answers
+        val voters = question.voters
+        val answers = question.answers
+        val category = question.category
         voters.add(firebaseUser)
         answers.add(answer)
-        var currentQuestion = dbquestions.child(question.id!!)
+        val currentQuestion = dbquestions.child(question.id!!)
         if (answer == "answerA") {
-            var aCurrentVotes = question.aVotes + 1
+            val aCurrentVotes = question.aVotes + 1
             currentQuestion.child("aVotes").setValue(aCurrentVotes)
-            currentQuestion.child("voters").setValue(voters)
-            currentQuestion.child("answers").setValue(answers)
         } else if (answer == "answerB") {
-            var bCurrentVotes = question.bVotes + 1
+            val bCurrentVotes = question.bVotes + 1
             currentQuestion.child("bVotes").setValue(bCurrentVotes)
-            currentQuestion.child("voters").setValue(voters)
-            currentQuestion.child("answers").setValue(answers)
         } else {
             Log.d("ERROVOTEUPDATE","deu ruim")
         }
+        currentQuestion.child("voters").setValue(voters)
+        currentQuestion.child("answers").setValue(answers)
+        getRealTimeUpdate(category!!)
     }
 
     fun deleteQuestion(question: Question){
