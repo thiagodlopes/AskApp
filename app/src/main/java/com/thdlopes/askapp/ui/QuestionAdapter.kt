@@ -23,6 +23,7 @@ class QuestionAdapter: RecyclerView.Adapter<QuestionAdapter.ViewHolder>() {
         holder.binding.imageViewA.visibility = View.INVISIBLE
         holder.binding.imageViewB.visibility = View.INVISIBLE
         holder.binding.ownerIcon.visibility = View.INVISIBLE
+        holder.binding.textViewVotes.text = ""
         var voters = questions[position].voters
         holder.binding.textViewQuestion.text = questions[position].name
         holder.binding.answerA.text = questions[position].answerA
@@ -30,8 +31,8 @@ class QuestionAdapter: RecyclerView.Adapter<QuestionAdapter.ViewHolder>() {
         holder.binding.chipCategory.text = questions[position].category
         if (voters.contains(currentUser)) {
             //Voted
-            var answers = questions[position].answers
-            var answerIndex = voters.indexOf(currentUser)
+            val answers = questions[position].answers
+            val answerIndex = voters.indexOf(currentUser)
             if (answers.size >= answerIndex){
                 if (answers[answerIndex] == "answerA") {
                     holder.binding.imageViewA.visibility = View.VISIBLE
@@ -46,9 +47,9 @@ class QuestionAdapter: RecyclerView.Adapter<QuestionAdapter.ViewHolder>() {
             holder.binding.bPercentage.visibility = View.VISIBLE
             var aVotes = questions[position].aVotes
             var bVotes = questions[position].bVotes
-            var votesSum = questions[position].aVotes + questions[position].bVotes
-            var aPercentage: String
-            var bPercentage: String
+            val votesSum = questions[position].aVotes + questions[position].bVotes
+            val aPercentage: String
+            val bPercentage: String
             if (votesSum == 0.toLong()) {
                 aPercentage = "0%"
                 bPercentage = "0%"
@@ -61,12 +62,13 @@ class QuestionAdapter: RecyclerView.Adapter<QuestionAdapter.ViewHolder>() {
 
             holder.binding.aPercentage.text = aPercentage
             holder.binding.bPercentage.text = bPercentage
-            var totalVotes = "Votos: $votesSum"
-            holder.binding.chipCategory.text = totalVotes
+            val totalVotes = "Votos: $votesSum"
+            holder.binding.textViewVotes.text = totalVotes
         } else {
             //Unvoted
             holder.binding.aPercentage.height = 0
             holder.binding.bPercentage.height = 0
+            holder.binding.textViewVotes.text = ""
 
         }
     }

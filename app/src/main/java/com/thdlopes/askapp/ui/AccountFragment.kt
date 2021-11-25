@@ -6,8 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.FirebaseAuth
@@ -33,14 +31,8 @@ class AccountFragment : Fragment() {
         _binding = FragmentAccountBinding.inflate(inflater, container, false)
         return binding.root
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val recyclerView = binding.recyclerViewCategories
-
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
 
         var googleUser : GoogleSignInAccount = GoogleSignIn.getLastSignedInAccount(context)
 
@@ -52,11 +44,6 @@ class AccountFragment : Fragment() {
             firebaseAuth.signOut()
             startActivity(Intent(getActivity(), LoginActivity::class.java))
         }
-//        viewModel.category.observe(viewLifecycleOwner, Observer{
-//            adapter.addCategory(it)
-//        })
-//
-//        viewModel.getRealTimeUpdate()
     }
 
     override fun onDestroy() {
